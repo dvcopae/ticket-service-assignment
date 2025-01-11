@@ -37,6 +37,6 @@ tasks.test {
     useJUnitPlatform()
 
     if (!project.hasProperty("skipDBTest") || project.findProperty("skipDBTest") != "true") {
-        exclude("me.dvcopae.tickets.persistance/**")
+        exclude("**/*DBTest*")
     }
 }
