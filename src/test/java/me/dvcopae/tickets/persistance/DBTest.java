@@ -1,16 +1,15 @@
 package me.dvcopae.tickets.persistance;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 class DBTest {
 
-    @Test
-    void testDB() throws SQLException {
-        var db = DB.get();
-        assertNotNull(db.checkConnection());
-    }
+  @Test
+  void testDB() throws SQLException {
+    var db = DB.get();
+    assertNotNull(db.checkConnection());
+  }
 }
