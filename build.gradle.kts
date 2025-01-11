@@ -6,6 +6,9 @@ plugins {
 
 spotless {
     java {
+        leadingSpacesToTabs(4)
+        removeUnusedImports()
+        trimTrailingWhitespace()
         googleJavaFormat() // google's java style guide
     }
 }
@@ -23,6 +26,9 @@ repositories {
 }
 
 dependencies {
+    runtimeOnly("org.postgresql:postgresql:42.7.4")
+
+    testRuntimeOnly ("org.junit.platform:junit-platform-launcher")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 }

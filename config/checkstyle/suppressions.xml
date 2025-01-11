@@ -10,5 +10,6 @@
     <suppress files="." checks="JavadocType"/>
     <suppress files="." checks="JavadocStyle"/>
     <suppress files="." checks="MissingJavadocMethod"/>
-    <suppress files="."  checks="HideUtilityClassConstructor" />
+    <suppress files="." checks="HideUtilityClassConstructor" />
+    <suppress files="." checks="LineLength"/>
 </suppressions>
