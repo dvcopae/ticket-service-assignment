@@ -10,7 +10,6 @@ spotless {
         removeUnusedImports()
         trimTrailingWhitespace()
         googleJavaFormat() // google's java style guide
-
     }
 }
 

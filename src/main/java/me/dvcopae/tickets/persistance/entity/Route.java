@@ -7,12 +7,15 @@ import java.util.List;
  * Each route is a sequence of stops on stations. Each stop at a station will have the distance
  * traveled on that route compared to the previous station.
  */
-public final class Route {
+public final class Route implements Entity<Integer> {
 
+  private final Integer id;
   private final List<Station> stations;
   private final List<Float> distances;
+  private String name;
 
-  public Route() {
+  public Route(Integer id) {
+    this.id = id;
     stations = new ArrayList<>();
     distances = new ArrayList<>();
   }
@@ -30,6 +33,14 @@ public final class Route {
     distances.add(distance);
   }
 
+  public Station getOrigin() {
+    return stations.getFirst();
+  }
+
+  public Station getDestination() {
+    return stations.getLast();
+  }
+
   public List<Station> getStations() {
     return List.copyOf(stations);
   }
@@ -38,12 +49,25 @@ public final class Route {
   public String toString() {
     StringBuilder sb = new StringBuilder("Path{");
     for (int i = 1; i < stations.size(); i++) {
-      sb.append(stations.get(i - 1).name());
+      sb.append(stations.get(i - 1).getName());
       sb.append(" -(").append(distances.get(i)).append(")-> ");
     }
-    sb.append(stations.getLast().name());
+    sb.append(stations.getLast().getName());
     sb.append("}");
 
     return sb.toString();
+  }
+
+  @Override
+  public Integer getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 }

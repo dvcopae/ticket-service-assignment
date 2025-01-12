@@ -6,27 +6,24 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import me.dvcopae.tickets.exceptions.DatabaseSetupException;
 
 public final class DB {
 
-  private static DB instance;
-
+  private static final DB INSTANCE = new DB();
   private final Properties prop = new Properties();
   private Connection conn;
 
-  public DB() throws SQLException {
-    initConnection();
+  public static DB get() {
+    return INSTANCE;
   }
 
-  public static DB get() {
-    if (instance == null) {
-      try {
-        instance = new DB();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
+  public DB() {
+    try {
+      initConnection();
+    } catch (SQLException e) {
+      throw new DatabaseSetupException(e);
     }
-    return instance;
   }
 
   private void initConnection() throws SQLException {
@@ -37,7 +34,7 @@ public final class DB {
       }
       prop.load(input);
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new DatabaseSetupException(e);
     }
 
     Properties connectionProps = new Properties();

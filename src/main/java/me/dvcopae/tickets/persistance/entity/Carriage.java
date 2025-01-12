@@ -5,25 +5,27 @@ import java.util.Objects;
 import java.util.Set;
 
 /** A component that represents a part of a physical train. */
-public final class Carriage {
+public final class Carriage implements Entity<Integer> {
 
-  private String carriageNumber;
+  private Integer id;
+  private String name;
   private Set<String> firstClassSeats;
   private Set<String> secondClassSeats;
 
-  public Carriage(String carriageNumber) {
-    Objects.requireNonNull(carriageNumber, "Carriage must have a carriage number.");
-    this.carriageNumber = carriageNumber;
+  public Carriage(Integer id, String name) {
+    Objects.requireNonNull(id, "Carriage must have an id.");
+    Objects.requireNonNull(name, "Carriage must have a carriage number.");
+    this.name = name;
     this.firstClassSeats = Collections.emptySet();
     this.secondClassSeats = Collections.emptySet();
   }
 
-  public String getCarriageNumber() {
-    return carriageNumber;
+  public String getName() {
+    return name;
   }
 
-  public void setCarriageNumber(String carriageNumber) {
-    this.carriageNumber = carriageNumber;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Set<String> getFirstClassSeats() {
@@ -40,5 +42,10 @@ public final class Carriage {
 
   public void setSecondClassSeats(Set<String> secondClassSeats) {
     this.secondClassSeats = secondClassSeats;
+  }
+
+  @Override
+  public Integer getId() {
+    return id;
   }
 }
