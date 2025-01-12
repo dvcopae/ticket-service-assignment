@@ -22,29 +22,6 @@ interface HTTPClient {
    fun post(url: String, body: Any): Response
    fun get(url: String): Response
 }
-# Context
-
-### Inventory	
-Stations	Each station has a name
-
-Routes	Each route is a sequence of stops on stations. Each stop at a station will have the distance traveled on that route compared to the previous station.
-
-Service	A service is a physical train that operates at a specific route at a specific time. A service is using multiple carriages to make a physical train.
-
-Carriage	A component that represents a part of a physical train.
-
-Seats	Each carriage has multiple seats in different comfort zones. (first-class, second-class).
-	
-### Booking	
-Booking	A collection of passenger information and seat reservations.
-
-A booking has a unique identifier.
-
-Ticket	A ticket contains a seat and is only valid for an origin and destination on a certain service.
-
-Passenger	A passenger will have a name and can have multiple tickets.
-
-Reservation System	A collection of bookings that can answer queries & stores new bookings.
 
 # Scenarios
 With this data model we would like you to implement the following scenarios.
