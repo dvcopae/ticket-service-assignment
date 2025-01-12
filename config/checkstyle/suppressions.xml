@@ -8,8 +8,8 @@
     <suppress files="." checks="JavadocPackage"/>
     <suppress files="." checks="JavadocVariable"/>
     <suppress files="." checks="JavadocType"/>
-    <suppress files="." checks="JavadocStyle"/>
     <suppress files="." checks="MissingJavadocMethod"/>
     <suppress files="." checks="HideUtilityClassConstructor" />
-    <suppress files="." checks="LineLength"/>
+    <suppress files="." checks="FinalParameters"/>
+    <suppress files="." checks="HiddenField"/>
 </suppressions>
