@@ -3,10 +3,7 @@ package me.dvcopae.tickets.persistance.entity;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * A collection of passenger information and seat reservations.
- * Immutable by design.
- */
+/** A collection of passenger information and seat reservations. Immutable by design. */
 public record Booking(String id, Passenger passenger, List<Ticket> tickets) {
 
   public Booking {
