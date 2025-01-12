@@ -2,7 +2,7 @@ package me.dvcopae.tickets.persistance.repository;
 
 import me.dvcopae.tickets.persistance.entity.Passenger;
 
-public final class PassengerRepo extends CrudRepository<Passenger, Integer> {
+public final class PassengerRepo extends IntegerCrudRepository<Passenger> {
 
   private static final PassengerRepo INSTANCE = new PassengerRepo();
 
@@ -16,11 +16,11 @@ public final class PassengerRepo extends CrudRepository<Passenger, Integer> {
   }
 
   public void initializePassengers() {
-    save(new Passenger(1, "Michael"));
-    save(new Passenger(2, "John"));
-    save(new Passenger(3, "Polo"));
-    save(new Passenger(4, "Barbara"));
-    save(new Passenger(5, "Jessica"));
-    save(new Passenger(6, "Sarah"));
+    save(new Passenger("Michael"));
+    save(new Passenger("John"));
+    save(new Passenger("Polo"));
+    save(new Passenger("Barbara"));
+    save(new Passenger("Jessica"));
+    save(new Passenger("Sarah"));
   }
 }

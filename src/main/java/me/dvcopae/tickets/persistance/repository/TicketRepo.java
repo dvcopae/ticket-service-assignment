@@ -2,7 +2,7 @@ package me.dvcopae.tickets.persistance.repository;
 
 import me.dvcopae.tickets.persistance.entity.Ticket;
 
-public final class TicketRepo extends CrudRepository<Ticket, Integer> {
+public final class TicketRepo extends IntegerCrudRepository<Ticket> {
 
   private static final TicketRepo INSTANCE = new TicketRepo();
 

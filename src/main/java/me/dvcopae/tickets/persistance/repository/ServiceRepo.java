@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Set;
 import me.dvcopae.tickets.persistance.entity.Service;
 
-public final class ServiceRepo extends CrudRepository<Service, Integer> {
+public final class ServiceRepo extends IntegerCrudRepository<Service> {
 
   private static final ServiceRepo INSTANCE =
       new ServiceRepo(RouteRepo.getInstance(), CarriageRepo.getInstance());

@@ -3,7 +3,7 @@ package me.dvcopae.tickets.persistance.repository;
 import me.dvcopae.tickets.persistance.entity.Route;
 import me.dvcopae.tickets.persistance.entity.Station;
 
-public final class RouteRepo extends CrudRepository<Route, Integer> {
+public final class RouteRepo extends IntegerCrudRepository<Route> {
 
   private static final RouteRepo INSTANCE = new RouteRepo(StationRepo.getInstance());
 
@@ -25,7 +25,7 @@ public final class RouteRepo extends CrudRepository<Route, Integer> {
     Station ashford = stationRepo.findByName("Ashford International");
     Station london = stationRepo.findByName("London St. Pancras International");
 
-    Route parisToLondon = new Route(1);
+    Route parisToLondon = new Route();
     parisToLondon.setName("Paris-London");
     parisToLondon.addStop(paris, lille, 100.0f);
     parisToLondon.addStop(lille, calais, 80.0f);
@@ -41,7 +41,7 @@ public final class RouteRepo extends CrudRepository<Route, Integer> {
     Station schiphol = stationRepo.findByName("Schiphol Airport");
     Station amsterdam = stationRepo.findByName("Amsterdam Centraal");
 
-    Route parisToAmsterdam = new Route(2);
+    Route parisToAmsterdam = new Route();
     parisToAmsterdam.setName("Paris-Amsterdam");
     parisToAmsterdam.addStop(paris, brusssels, 300.0f);
     parisToAmsterdam.addStop(brusssels, antwerp, 45.0f);
@@ -51,7 +51,7 @@ public final class RouteRepo extends CrudRepository<Route, Integer> {
     save(parisToAmsterdam);
 
     // Amsterdam - Berlin
-    Route amsterdamToBerlin = new Route(3);
+    Route amsterdamToBerlin = new Route();
     amsterdamToBerlin.setName("Amsterdam-Berlin");
     amsterdamToBerlin.addStop(amsterdam, schiphol, 15.0f);
     amsterdamToBerlin.addStop(schiphol, rotterdam, 60.0f);

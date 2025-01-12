@@ -12,8 +12,7 @@ public final class Carriage implements Entity<Integer> {
   private Set<String> firstClassSeats;
   private Set<String> secondClassSeats;
 
-  public Carriage(Integer id, String name) {
-    Objects.requireNonNull(id, "Carriage must have an id.");
+  public Carriage(String name) {
     Objects.requireNonNull(name, "Carriage must have a carriage number.");
     this.name = name;
     this.firstClassSeats = Collections.emptySet();
@@ -47,5 +46,10 @@ public final class Carriage implements Entity<Integer> {
   @Override
   public Integer getId() {
     return id;
+  }
+
+  @Override
+  public void setId(Integer id) {
+    this.id = id;
   }
 }

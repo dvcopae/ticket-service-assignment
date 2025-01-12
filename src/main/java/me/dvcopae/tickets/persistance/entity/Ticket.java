@@ -6,18 +6,49 @@ import java.util.Objects;
  * A ticket contains a seat and is only valid for an origin and destination on a certain service.
  * Immutable by design.
  */
-public record Ticket(Integer id, Service service, Station origin, Station destination, String seat)
-    implements Entity<Integer> {
-  public Ticket {
-    Objects.requireNonNull(id, "Ticket must have an id.");
+public final class Ticket implements Entity<Integer> {
+
+  private Integer id;
+  private final Service service;
+  private final Station origin;
+  private final Station destination;
+  private final String seat;
+
+  public Ticket(Service service, Station origin, Station destination, String seat) {
     Objects.requireNonNull(service, "Ticket must have a service.");
     Objects.requireNonNull(origin, "Ticket must have an origin.");
     Objects.requireNonNull(destination, "Ticket must have a destination.");
     Objects.requireNonNull(seat, "Ticket must have a seat.");
+
+    this.service = service;
+    this.origin = origin;
+    this.destination = destination;
+    this.seat = seat;
   }
 
   @Override
   public Integer getId() {
     return id;
+  }
+
+  @Override
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public Service getService() {
+    return service;
+  }
+
+  public Station getOrigin() {
+    return origin;
+  }
+
+  public Station getDestination() {
+    return destination;
+  }
+
+  public String getSeat() {
+    return seat;
   }
 }

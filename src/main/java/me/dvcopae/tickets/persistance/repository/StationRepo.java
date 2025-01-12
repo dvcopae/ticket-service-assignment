@@ -2,7 +2,7 @@ package me.dvcopae.tickets.persistance.repository;
 
 import me.dvcopae.tickets.persistance.entity.Station;
 
-public final class StationRepo extends CrudRepository<Station, Integer> {
+public final class StationRepo extends IntegerCrudRepository<Station> {
 
   private static final StationRepo INSTANCE = new StationRepo();
 
@@ -13,20 +13,20 @@ public final class StationRepo extends CrudRepository<Station, Integer> {
 
   private void initializeStations() {
     // Paris - London
-    save(new Station(6, "Paris Gare du Nord"));
-    save(new Station(7, "Lille Europe"));
-    save(new Station(8, "Calais-Fréthun"));
-    save(new Station(9, "Ebbsfleet International"));
-    save(new Station(10, "Ashford International"));
-    save(new Station(11, "London St. Pancras International"));
+    save(new Station("Paris Gare du Nord"));
+    save(new Station("Lille Europe"));
+    save(new Station("Calais-Fréthun"));
+    save(new Station("Ebbsfleet International"));
+    save(new Station("Ashford International"));
+    save(new Station("London St. Pancras International"));
 
     // Paris - Amsterdam
     // Belgium - Amsterdam
-    save(new Station(5, "Brussels-Midi/Zuid"));
-    save(new Station(4, "Antwerp-Central"));
-    save(new Station(3, "Rotterdam Centraal"));
-    save(new Station(2, "Schiphol Airport"));
-    save(new Station(1, "Amsterdam Centraal"));
+    save(new Station("Brussels-Midi/Zuid"));
+    save(new Station("Antwerp-Central"));
+    save(new Station("Rotterdam Centraal"));
+    save(new Station("Schiphol Airport"));
+    save(new Station("Amsterdam Centraal"));
   }
 
   public static StationRepo getInstance() {

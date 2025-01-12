@@ -1,31 +1,33 @@
 package me.dvcopae.tickets.persistance.entity;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import me.dvcopae.tickets.persistance.dto.PartialBooking;
 
-/** A collection of passenger information and seat reservations. Immutable by design. */
+/**
+ * A collection of passenger information and seat reservations. Immutable by design. A booking is a
+ * collection of partial bookings.
+ */
 public final class Booking implements Entity<Integer> {
 
-  private final Integer id;
-  private Map<Passenger, List<Ticket>> passengerTickets;
+  private Integer id;
 
-  public Booking(Integer id) {
-    Objects.requireNonNull(id, "Booking must have an id.");
-
-    this.id = id;
-  }
+  private List<PartialBooking> partialBookings;
 
   @Override
   public Integer getId() {
     return id;
   }
 
-  public Map<Passenger, List<Ticket>> getPassengerTickets() {
-    return passengerTickets;
+  @Override
+  public void setId(Integer id) {
+    this.id = id;
   }
 
-  public void setPassengerTickets(Map<Passenger, List<Ticket>> passengerTickets) {
-    this.passengerTickets = passengerTickets;
+  public List<PartialBooking> getPartialBookings() {
+    return partialBookings;
+  }
+
+  public void setPartialBookings(List<PartialBooking> partialBookings) {
+    this.partialBookings = partialBookings;
   }
 }

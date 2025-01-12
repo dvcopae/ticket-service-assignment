@@ -17,13 +17,23 @@ public abstract class CrudRepository<T extends Entity<Y>, Y> {
    * Save the entity to the database.
    *
    * @param entity entity to be saved.
+   * @return id after saving
    */
-  public void save(T entity) {
+  public Y save(T entity) {
     if (entity == null) {
       throw new IllegalArgumentException("Entity cannot be null.");
     }
+
+    if (entity.getId() == null) {
+      entity.setId(nextID());
+    }
+
     objects.put(entity.getId(), entity);
+
+    return entity.getId();
   }
+
+  public abstract Y nextID();
 
   /**
    * Retrieve the object with the identifier 'id', if any.
@@ -49,7 +59,7 @@ public abstract class CrudRepository<T extends Entity<Y>, Y> {
    *
    * @param id identifier of the object
    */
-  void deleteById(Y id) {
+  public void delete(Y id) {
     objects.remove(id);
   }
 }

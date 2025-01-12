@@ -9,13 +9,12 @@ import java.util.List;
  */
 public final class Route implements Entity<Integer> {
 
-  private final Integer id;
+  private Integer id;
   private final List<Station> stations;
   private final List<Float> distances;
   private String name;
 
-  public Route(Integer id) {
-    this.id = id;
+  public Route() {
     stations = new ArrayList<>();
     distances = new ArrayList<>();
   }
@@ -61,6 +60,11 @@ public final class Route implements Entity<Integer> {
   @Override
   public Integer getId() {
     return id;
+  }
+
+  @Override
+  public void setId(Integer id) {
+    this.id = id;
   }
 
   public String getName() {

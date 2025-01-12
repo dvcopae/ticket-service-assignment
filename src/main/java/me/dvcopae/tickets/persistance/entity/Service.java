@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public final class Service implements Entity<Integer> {
 
-  private final Integer id;
+  private Integer id;
   private Set<Carriage> carriages;
   private Route route;
   private LocalDate date;
@@ -58,5 +58,10 @@ public final class Service implements Entity<Integer> {
   @Override
   public Integer getId() {
     return id;
+  }
+
+  @Override
+  public void setId(Integer id) {
+    this.id = id;
   }
 }

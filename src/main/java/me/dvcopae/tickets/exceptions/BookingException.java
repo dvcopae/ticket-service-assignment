@@ -1,0 +1,7 @@
+package me.dvcopae.tickets.exceptions;
+
+public class BookingException extends RuntimeException {
+  public BookingException(String message) {
+    super(message);
+  }
+}
