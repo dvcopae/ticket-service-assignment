@@ -62,7 +62,9 @@ class SystemTest {
     passengerService = new PassengerService(passengerRepo);
 
     TicketingService ticketingService = new TicketingService(ticketRepo, routingService);
-    bookingService = new BookingService(bookingRepo, ticketingService, routingService);
+    bookingService =
+        new BookingService(
+            bookingRepo, ticketingService, routingService, stationService, serviceService);
 
     setUpMockBehavior();
   }
@@ -201,11 +203,11 @@ class SystemTest {
   @Test
   void testTwoReservationOnSecondClass() throws BookingException {
     Map<Passenger, List<TicketRequest>> bookingRequest = new HashMap<>();
-    Service s5160 = serviceService.findById(5160).orElseThrow();
-    Station paris = stationService.findByName("Paris Gare du Nord").orElseThrow();
-    Station amsterdam = stationService.findByName("Amsterdam Centraal").orElseThrow();
-    TicketRequest reqA11ParisAmsterdam = new TicketRequest(s5160, "A11", paris, amsterdam);
-    TicketRequest reqA12ParisAmsterdam = new TicketRequest(s5160, "A12", paris, amsterdam);
+
+    TicketRequest reqA11ParisAmsterdam =
+        new TicketRequest(5160, "A11", "Paris Gare du Nord", "Amsterdam Centraal");
+    TicketRequest reqA12ParisAmsterdam =
+        new TicketRequest(5160, "A12", "Paris Gare du Nord", "Amsterdam Centraal");
 
     bookingRequest.put(
         passengerService.findByName("Michael").orElseThrow(), List.of(reqA11ParisAmsterdam));
@@ -259,16 +261,15 @@ class SystemTest {
   void testTwoReservationOnSeparateRoute() throws BookingException {
     Map<Passenger, List<TicketRequest>> bookingRequest = new HashMap<>();
 
-    Service s5170 = serviceService.findById(5170).orElseThrow();
-    Station paris = stationService.findByName("Paris Gare du Nord").orElseThrow();
-    Station london = stationService.findByName("London St. Pancras International").orElseThrow();
-    TicketRequest reqH1LondonParis = new TicketRequest(s5170, "H1", london, paris);
-    TicketRequest reqN5LondonParis = new TicketRequest(s5170, "N5", london, paris);
+    TicketRequest reqH1LondonParis =
+        new TicketRequest(5170, "H1", "London St. Pancras International", "Paris Gare du Nord");
+    TicketRequest reqN5LondonParis =
+        new TicketRequest(5170, "N5", "London St. Pancras International", "Paris Gare du Nord");
 
-    Service s5160 = serviceService.findById(5160).orElseThrow();
-    Station amsterdam = stationService.findByName("Amsterdam Centraal").orElseThrow();
-    TicketRequest reqA1ParisAmsterdam = new TicketRequest(s5160, "A1", paris, amsterdam);
-    TicketRequest reqT7ParisAmsterdam = new TicketRequest(s5160, "T7", paris, amsterdam);
+    TicketRequest reqA1ParisAmsterdam =
+        new TicketRequest(5160, "A1", "Paris Gare du Nord", "Amsterdam Centraal");
+    TicketRequest reqT7ParisAmsterdam =
+        new TicketRequest(5160, "T7", "Paris Gare du Nord", "Amsterdam Centraal");
 
     bookingRequest.put(
         passengerService.findByName("Michael").orElseThrow(),

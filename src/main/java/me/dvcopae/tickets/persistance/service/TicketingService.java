@@ -2,9 +2,9 @@ package me.dvcopae.tickets.persistance.service;
 
 import java.util.Set;
 import me.dvcopae.tickets.exceptions.InvalidTicketException;
-import me.dvcopae.tickets.persistance.dto.TicketRequest;
 import me.dvcopae.tickets.persistance.entity.Carriage;
 import me.dvcopae.tickets.persistance.entity.Service;
+import me.dvcopae.tickets.persistance.entity.Station;
 import me.dvcopae.tickets.persistance.entity.Ticket;
 import me.dvcopae.tickets.persistance.repository.TicketRepo;
 
@@ -25,27 +25,23 @@ public class TicketingService extends RepositoryService<Ticket, Integer> {
    * @return true if the configuration is valid
    * @throws InvalidTicketException reason why the ticket is not valid
    */
-  public boolean isValidRequest(TicketRequest request) throws InvalidTicketException {
-    Service service = request.service();
+  public boolean isValidRequest(String seat, Service service, Station origin, Station destination)
+      throws InvalidTicketException {
     Set<Carriage> carriages = service.getCarriages();
 
-    if (!routingService.verifyStations(
-        service.getRoute(), request.origin(), request.destination())) {
+    if (!routingService.verifyStations(service.getRoute(), origin, destination)) {
       throw new InvalidTicketException(
           String.format(
               "Ticket origin (%s) or destination (%s) are not valid for the service %d.%n",
-              request.origin().getName(), request.destination().getName(), service.getId()));
+              origin.getName(), destination.getName(), service.getId()));
     }
 
     if (carriages.stream()
         .noneMatch(
-            c ->
-                c.getFirstClassSeats().contains(request.seat())
-                    || c.getSecondClassSeats().contains(request.seat()))) {
+            c -> c.getFirstClassSeats().contains(seat) || c.getSecondClassSeats().contains(seat))) {
       throw new InvalidTicketException(
           String.format(
-              "Ticket seat '%s' is not valid for the service %d.%n",
-              request.seat(), service.getId()));
+              "Ticket seat '%s' is not valid for the service %d.%n", seat, service.getId()));
     }
 
     return true;

@@ -19,13 +19,21 @@ public class BookingService extends RepositoryService<Booking, Integer> {
   private final BookingRepo bookingRepo;
   private final TicketingService ticketingService;
   private final RoutingService routingService;
+  private final StationService stationService;
+  private final ServiceService serviceService;
 
   protected BookingService(
-      BookingRepo repository, TicketingService ticketingService, RoutingService routingService) {
+      BookingRepo repository,
+      TicketingService ticketingService,
+      RoutingService routingService,
+      StationService stationService,
+      ServiceService serviceService) {
     super(repository);
     this.bookingRepo = repository;
     this.ticketingService = ticketingService;
     this.routingService = routingService;
+    this.stationService = stationService;
+    this.serviceService = serviceService;
   }
 
   public Booking createBooking(Map<Passenger, List<TicketRequest>> bookingRequest)
@@ -50,17 +58,32 @@ public class BookingService extends RepositoryService<Booking, Integer> {
     List<Ticket> createdTickets = new ArrayList<>();
 
     for (TicketRequest request : requests) {
-      if (!this.ticketingService.isValidRequest(request)) {
+
+      Service service =
+          serviceService
+              .findById(request.service())
+              .orElseThrow(() -> new BookingException("The requested service does not exist"));
+      Station origin =
+          stationService
+              .findByName(request.origin())
+              .orElseThrow(
+                  () -> new BookingException("The requested origin station does not exist"));
+      Station destination =
+          stationService
+              .findByName(request.destination())
+              .orElseThrow(
+                  () -> new BookingException("The requested destination station does not exist"));
+
+      if (!this.ticketingService.isValidRequest(request.seat(), service, origin, destination)) {
         throw new BookingException("The ticket request is not valid");
       }
 
-      if (!isSeatFree(request.seat(), request.service(), request.origin(), request.destination())) {
+      if (!isSeatFree(request.seat(), service, origin, destination)) {
         throw new BookingException("The requested seat is not available");
       }
 
       // Valid
-      createdTickets.add(
-          new Ticket(request.service(), request.origin(), request.destination(), request.seat()));
+      createdTickets.add(new Ticket(service, origin, destination, request.seat()));
     }
 
     return new PartialBooking(passenger, createdTickets);

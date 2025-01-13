@@ -1,10 +1,8 @@
 package me.dvcopae.tickets.persistance.dto;
 
 import java.util.Objects;
-import me.dvcopae.tickets.persistance.entity.Service;
-import me.dvcopae.tickets.persistance.entity.Station;
 
-public record TicketRequest(Service service, String seat, Station origin, Station destination) {
+public record TicketRequest(Integer service, String seat, String origin, String destination) {
 
   public TicketRequest {
     Objects.requireNonNull(service, "Service must not be null");
@@ -16,14 +14,14 @@ public record TicketRequest(Service service, String seat, Station origin, Statio
   public String toString() {
     return "TicketRequest["
         + "service="
-        + service.getId()
+        + service
         + ", seat='"
         + seat
         + '\''
         + ", origin="
-        + origin.getName()
+        + origin
         + ", destination="
-        + destination.getName()
+        + destination
         + ']';
   }
 }
