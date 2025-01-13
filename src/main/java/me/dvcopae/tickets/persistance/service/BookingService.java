@@ -3,8 +3,8 @@ package me.dvcopae.tickets.persistance.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import me.dvcopae.tickets.exceptions.BookingException;
+import me.dvcopae.tickets.persistance.dto.BookingRequest;
 import me.dvcopae.tickets.persistance.dto.PartialBooking;
 import me.dvcopae.tickets.persistance.dto.TicketRequest;
 import me.dvcopae.tickets.persistance.entity.Booking;
@@ -36,11 +36,10 @@ public class BookingService extends RepositoryService<Booking, Integer> {
     this.serviceService = serviceService;
   }
 
-  public Booking createBooking(Map<Passenger, List<TicketRequest>> bookingRequest)
-      throws BookingException {
+  public Booking createBooking(BookingRequest bookingRequest) throws BookingException {
     Booking booking = new Booking();
     List<PartialBooking> partialBookings = new ArrayList<>();
-    for (var entry : bookingRequest.entrySet()) {
+    for (var entry : bookingRequest.request().entrySet()) {
       partialBookings.add(createPartialBooking(entry.getKey(), entry.getValue()));
     }
 

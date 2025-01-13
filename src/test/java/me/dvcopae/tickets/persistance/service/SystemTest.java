@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import me.dvcopae.tickets.exceptions.BookingException;
+import me.dvcopae.tickets.persistance.dto.BookingRequest;
 import me.dvcopae.tickets.persistance.dto.PartialBooking;
 import me.dvcopae.tickets.persistance.dto.TicketRequest;
 import me.dvcopae.tickets.persistance.entity.Booking;
@@ -202,19 +203,19 @@ class SystemTest {
 
   @Test
   void testTwoReservationOnSecondClass() throws BookingException {
-    Map<Passenger, List<TicketRequest>> bookingRequest = new HashMap<>();
+    Map<Passenger, List<TicketRequest>> bookingRequestData = new HashMap<>();
 
     TicketRequest reqA11ParisAmsterdam =
         new TicketRequest(5160, "A11", "Paris Gare du Nord", "Amsterdam Centraal");
     TicketRequest reqA12ParisAmsterdam =
         new TicketRequest(5160, "A12", "Paris Gare du Nord", "Amsterdam Centraal");
 
-    bookingRequest.put(
+    bookingRequestData.put(
         passengerService.findByName("Michael").orElseThrow(), List.of(reqA11ParisAmsterdam));
-    bookingRequest.put(
+    bookingRequestData.put(
         passengerService.findByName("John").orElseThrow(), List.of(reqA12ParisAmsterdam));
 
-    Booking book = bookingService.createBooking(bookingRequest);
+    Booking book = bookingService.createBooking(new BookingRequest(bookingRequestData));
 
     // Verify Michael
     PartialBooking michaelBooking =
@@ -259,7 +260,7 @@ class SystemTest {
 
   @Test
   void testTwoReservationOnSeparateRoute() throws BookingException {
-    Map<Passenger, List<TicketRequest>> bookingRequest = new HashMap<>();
+    Map<Passenger, List<TicketRequest>> bookingRequestData = new HashMap<>();
 
     TicketRequest reqH1LondonParis =
         new TicketRequest(5170, "H1", "London St. Pancras International", "Paris Gare du Nord");
@@ -271,15 +272,15 @@ class SystemTest {
     TicketRequest reqT7ParisAmsterdam =
         new TicketRequest(5160, "T7", "Paris Gare du Nord", "Amsterdam Centraal");
 
-    bookingRequest.put(
+    bookingRequestData.put(
         passengerService.findByName("Michael").orElseThrow(),
         List.of(reqH1LondonParis, reqA1ParisAmsterdam));
 
-    bookingRequest.put(
+    bookingRequestData.put(
         passengerService.findByName("John").orElseThrow(),
         List.of(reqN5LondonParis, reqT7ParisAmsterdam));
 
-    Booking book = bookingService.createBooking(bookingRequest);
+    Booking book = bookingService.createBooking(new BookingRequest(bookingRequestData));
 
     // Verify Michael
     PartialBooking michaelBooking =
