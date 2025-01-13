@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import me.dvcopae.tickets.persistance.dto.PartialBooking;
 import me.dvcopae.tickets.persistance.entity.Booking;
-import me.dvcopae.tickets.persistance.entity.Entity;
 import me.dvcopae.tickets.persistance.entity.Service;
 
 public final class BookingRepo extends IntegerCrudRepository<Booking> {
@@ -34,10 +33,5 @@ public final class BookingRepo extends IntegerCrudRepository<Booking> {
                     .flatMap(Collection::stream)
                     .anyMatch(t -> t.getService().equals(service)))
         .toList();
-  }
-
-  @Override
-  public Integer nextID() {
-    return findAll().stream().mapToInt(Entity::getId).max().orElse(0) + 1;
   }
 }

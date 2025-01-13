@@ -64,4 +64,18 @@ public final class Service implements Entity<Integer> {
   public void setId(Integer id) {
     this.id = id;
   }
+
+  @Override
+  public String toString() {
+    return "Service{"
+        + "id="
+        + id
+        + ", carriages="
+        + carriages
+        + ", route="
+        + route
+        + ", date="
+        + date
+        + '}';
+  }
 }

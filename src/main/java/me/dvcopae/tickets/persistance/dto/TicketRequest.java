@@ -12,4 +12,18 @@ public record TicketRequest(Service service, String seat, Station origin, Statio
     Objects.requireNonNull(origin, "Origin must not be null");
     Objects.requireNonNull(destination, "Destination must not be null");
   }
+
+  public String toString() {
+    return "TicketRequest["
+        + "service="
+        + service.getId()
+        + ", seat='"
+        + seat
+        + '\''
+        + ", origin="
+        + origin.getName()
+        + ", destination="
+        + destination.getName()
+        + ']';
+  }
 }

@@ -3,6 +3,7 @@ package me.dvcopae.tickets.persistance.repository;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import me.dvcopae.tickets.persistance.entity.Entity;
 
 public abstract class CrudRepository<T extends Entity<Y>, Y> {
@@ -41,8 +42,8 @@ public abstract class CrudRepository<T extends Entity<Y>, Y> {
    * @param id identifier of the object
    * @return object with identifier 'id'
    */
-  public T findById(Y id) {
-    return objects.get(id);
+  public Optional<T> findById(Y id) {
+    return Optional.ofNullable(objects.get(id));
   }
 
   /**

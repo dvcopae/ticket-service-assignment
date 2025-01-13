@@ -52,4 +52,19 @@ public final class Carriage implements Entity<Integer> {
   public void setId(Integer id) {
     this.id = id;
   }
+
+  @Override
+  public String toString() {
+    return "Carriage{"
+        + "id="
+        + id
+        + ", name='"
+        + name
+        + '\''
+        + ", firstClassSeats="
+        + firstClassSeats
+        + ", secondClassSeats="
+        + secondClassSeats
+        + '}';
+  }
 }

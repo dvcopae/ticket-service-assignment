@@ -18,4 +18,9 @@ public record PartialBooking(Passenger passenger, List<Ticket> tickets) {
       throw new IllegalArgumentException("At least one ticket must be reserved");
     }
   }
+
+  @Override
+  public String toString() {
+    return "{passenger=" + passenger.getName() + ", tickets=" + tickets + '}';
+  }
 }

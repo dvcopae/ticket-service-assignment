@@ -30,4 +30,9 @@ public final class Booking implements Entity<Integer> {
   public void setPartialBookings(List<PartialBooking> partialBookings) {
     this.partialBookings = partialBookings;
   }
+
+  @Override
+  public String toString() {
+    return "Booking{" + "id=" + id + ", partialBookings=" + partialBookings + '}';
+  }
 }

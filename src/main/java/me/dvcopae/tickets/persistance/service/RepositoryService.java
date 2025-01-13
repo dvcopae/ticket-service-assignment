@@ -18,7 +18,7 @@ public abstract class RepositoryService<T extends Entity<Y>, Y> {
   }
 
   public Optional<T> findById(Y id) {
-    return Optional.ofNullable(this.repository.findById(id));
+    return this.repository.findById(id);
   }
 
   public Y save(T entity) {

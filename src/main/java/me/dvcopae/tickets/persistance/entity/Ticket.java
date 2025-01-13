@@ -51,4 +51,19 @@ public final class Ticket implements Entity<Integer> {
   public String getSeat() {
     return seat;
   }
+
+  @Override
+  public String toString() {
+    return "Ticket{"
+        + "id="
+        + id
+        + ", origin="
+        + origin
+        + ", destination="
+        + destination
+        + ", seat='"
+        + seat
+        + '\''
+        + '}';
+  }
 }

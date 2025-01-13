@@ -46,13 +46,16 @@ public final class Route implements Entity<Integer> {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("Path{");
+    StringBuilder sb = new StringBuilder("Path[");
     for (int i = 1; i < stations.size(); i++) {
-      sb.append(stations.get(i - 1).getName());
-      sb.append(" -(").append(distances.get(i)).append(")-> ");
+      sb.append(stations.get(i - 1));
+      if (distances.size() > i) {
+        sb.append(" -(").append(distances.get(i)).append(")-> ");
+      }
     }
+    sb.append("->");
     sb.append(stations.getLast().getName());
-    sb.append("}");
+    sb.append("]");
 
     return sb.toString();
   }

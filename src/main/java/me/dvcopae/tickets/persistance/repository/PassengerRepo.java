@@ -1,5 +1,6 @@
 package me.dvcopae.tickets.persistance.repository;
 
+import java.util.Optional;
 import me.dvcopae.tickets.persistance.entity.Passenger;
 
 public final class PassengerRepo extends IntegerCrudRepository<Passenger> {
@@ -12,15 +13,13 @@ public final class PassengerRepo extends IntegerCrudRepository<Passenger> {
 
   private PassengerRepo() {
     super();
-    initializePassengers();
   }
 
-  public void initializePassengers() {
-    save(new Passenger("Michael"));
-    save(new Passenger("John"));
-    save(new Passenger("Polo"));
-    save(new Passenger("Barbara"));
-    save(new Passenger("Jessica"));
-    save(new Passenger("Sarah"));
+  public Optional<Passenger> findByName(String name) {
+    if (name == null || name.isBlank()) {
+      return Optional.empty();
+    }
+
+    return findAll().stream().filter(passenger -> passenger.getName().equals(name)).findFirst();
   }
 }

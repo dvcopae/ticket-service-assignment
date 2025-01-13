@@ -1,13 +1,17 @@
 package me.dvcopae.tickets.persistance.service;
 
+import java.util.Optional;
 import me.dvcopae.tickets.persistance.entity.Route;
 import me.dvcopae.tickets.persistance.entity.Station;
 import me.dvcopae.tickets.persistance.repository.RouteRepo;
 
 public class RoutingService extends RepositoryService<Route, Integer> {
 
+  private final RouteRepo repository;
+
   protected RoutingService(RouteRepo repository) {
     super(repository);
+    this.repository = repository;
   }
 
   public boolean verifyStations(Route route, Station start, Station end) {
@@ -23,5 +27,9 @@ public class RoutingService extends RepositoryService<Route, Integer> {
    */
   public Route findBestRoute() {
     throw new UnsupportedOperationException("Not yet implemented");
+  }
+
+  public Optional<Route> findByName(String name) {
+    return this.repository.findByName(name);
   }
 }
