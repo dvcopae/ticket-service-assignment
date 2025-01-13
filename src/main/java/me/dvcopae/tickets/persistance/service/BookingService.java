@@ -3,6 +3,7 @@ package me.dvcopae.tickets.persistance.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import me.dvcopae.tickets.exceptions.BookingException;
 import me.dvcopae.tickets.persistance.dto.BookingRequest;
 import me.dvcopae.tickets.persistance.dto.PartialBooking;
@@ -120,7 +121,7 @@ public class BookingService extends RepositoryService<Booking, Integer> {
       }
     }
 
-    for (Booking b : bookingRepo.findAllByService(service)) {
+    for (Booking b : bookingRepo.findAllByService(service.getId())) {
       List<Ticket> bookingTickets =
           b.getPartialBookings().stream()
               .map(PartialBooking::tickets)
@@ -157,5 +158,25 @@ public class BookingService extends RepositoryService<Booking, Integer> {
     }
 
     return true;
+  }
+
+  public List<PartialBooking> findBoardingForServiceAndStation(
+      Integer service, String boardingStation) {
+    return this.bookingRepo.findAllByServiceAndOrigin(service, boardingStation);
+  }
+
+  public List<PartialBooking> findLeavingForServiceAndStation(
+      Integer service, String leavingStation) {
+    return this.bookingRepo.findAllByServiceAndDestination(service, leavingStation);
+  }
+
+  public List<PartialBooking> findPresentForServiceBetweenStations(
+      Integer service, String startStation, String stopStation) {
+    return this.bookingRepo.findAllByServiceAndBetweenStations(service, startStation, stopStation);
+  }
+
+  public Optional<PartialBooking> findByServiceAndSeat(
+      Integer service, String seat, String station) {
+    return this.bookingRepo.findByServiceAndSeatAndStation(service, seat, station);
   }
 }

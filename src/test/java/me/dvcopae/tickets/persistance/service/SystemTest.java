@@ -196,26 +196,18 @@ class SystemTest {
   private void setUpPassengersMock() {
     Passenger michael = new Passenger("Michael");
     Passenger john = new Passenger("John");
+    Passenger tiffany = new Passenger("Tiffany");
+    Passenger sarah = new Passenger("Sarah");
 
     when(passengerRepo.findByName("Michael")).thenReturn(Optional.of(michael));
     when(passengerRepo.findByName("John")).thenReturn(Optional.of(john));
+    Mockito.lenient().when(passengerRepo.findByName("Tiffany")).thenReturn(Optional.of(tiffany));
+    Mockito.lenient().when(passengerRepo.findByName("Sarah")).thenReturn(Optional.of(sarah));
   }
 
   @Test
   void testTwoReservationOnSecondClass() throws BookingException {
-    Map<Passenger, List<TicketRequest>> bookingRequestData = new HashMap<>();
-
-    TicketRequest reqA11ParisAmsterdam =
-        new TicketRequest(5160, "A11", "Paris Gare du Nord", "Amsterdam Centraal");
-    TicketRequest reqA12ParisAmsterdam =
-        new TicketRequest(5160, "A12", "Paris Gare du Nord", "Amsterdam Centraal");
-
-    bookingRequestData.put(
-        passengerService.findByName("Michael").orElseThrow(), List.of(reqA11ParisAmsterdam));
-    bookingRequestData.put(
-        passengerService.findByName("John").orElseThrow(), List.of(reqA12ParisAmsterdam));
-
-    Booking book = bookingService.createBooking(new BookingRequest(bookingRequestData));
+    Booking book = createTwoReservationOnSecondClassBooking("Michael", "John");
 
     // Verify Michael
     PartialBooking michaelBooking =
@@ -246,13 +238,29 @@ class SystemTest {
     assertTrue(johnParisAmsterdamTicket.isFirstClass());
   }
 
+  private Booking createTwoReservationOnSecondClassBooking(String name1, String name2) {
+    Map<Passenger, List<TicketRequest>> bookingRequestData = new HashMap<>();
+
+    TicketRequest reqA11ParisAmsterdam =
+        new TicketRequest(5160, "A11", "Paris Gare du Nord", "Amsterdam Centraal");
+    TicketRequest reqA12ParisAmsterdam =
+        new TicketRequest(5160, "A12", "Paris Gare du Nord", "Amsterdam Centraal");
+
+    bookingRequestData.put(
+        passengerService.findByName(name1).orElseThrow(), List.of(reqA11ParisAmsterdam));
+    bookingRequestData.put(
+        passengerService.findByName(name2).orElseThrow(), List.of(reqA12ParisAmsterdam));
+
+    return bookingService.createBooking(new BookingRequest(bookingRequestData));
+  }
+
   @Test
   void testRepeatedReservationOnSecondClass() {
-    testTwoReservationOnSecondClass();
+    createTwoReservationOnSecondClassBooking("Michael", "John");
     BookingException exception =
         assertThrows(
             BookingException.class,
-            this::testTwoReservationOnSecondClass,
+            () -> createTwoReservationOnSecondClassBooking("Sarah", "Tiffany"),
             "Expected BookingException to be thrown when reserving the same seat twice");
 
     assertEquals("The requested seat is not available", exception.getMessage());
@@ -260,27 +268,7 @@ class SystemTest {
 
   @Test
   void testTwoReservationOnSeparateRoute() throws BookingException {
-    Map<Passenger, List<TicketRequest>> bookingRequestData = new HashMap<>();
-
-    TicketRequest reqH1LondonParis =
-        new TicketRequest(5170, "H1", "London St. Pancras International", "Paris Gare du Nord");
-    TicketRequest reqN5LondonParis =
-        new TicketRequest(5170, "N5", "London St. Pancras International", "Paris Gare du Nord");
-
-    TicketRequest reqA1ParisAmsterdam =
-        new TicketRequest(5160, "A1", "Paris Gare du Nord", "Amsterdam Centraal");
-    TicketRequest reqT7ParisAmsterdam =
-        new TicketRequest(5160, "T7", "Paris Gare du Nord", "Amsterdam Centraal");
-
-    bookingRequestData.put(
-        passengerService.findByName("Michael").orElseThrow(),
-        List.of(reqH1LondonParis, reqA1ParisAmsterdam));
-
-    bookingRequestData.put(
-        passengerService.findByName("John").orElseThrow(),
-        List.of(reqN5LondonParis, reqT7ParisAmsterdam));
-
-    Booking book = bookingService.createBooking(new BookingRequest(bookingRequestData));
+    Booking book = createTwoReservationOnSeparateRouteBooking("Michael", "John");
 
     // Verify Michael
     PartialBooking michaelBooking =
@@ -327,15 +315,75 @@ class SystemTest {
     assertTrue(johnParisAmsterdamTicket.isFirstClass());
   }
 
+  public Booking createTwoReservationOnSeparateRouteBooking(String name1, String name2) {
+    Map<Passenger, List<TicketRequest>> bookingRequestData = new HashMap<>();
+
+    TicketRequest reqH1LondonParis =
+        new TicketRequest(5170, "H1", "London St. Pancras International", "Paris Gare du Nord");
+    TicketRequest reqN5LondonParis =
+        new TicketRequest(5170, "N5", "London St. Pancras International", "Paris Gare du Nord");
+
+    TicketRequest reqA1ParisAmsterdam =
+        new TicketRequest(5160, "A1", "Paris Gare du Nord", "Amsterdam Centraal");
+    TicketRequest reqT7ParisAmsterdam =
+        new TicketRequest(5160, "T7", "Paris Gare du Nord", "Amsterdam Centraal");
+
+    bookingRequestData.put(
+        passengerService.findByName(name1).orElseThrow(),
+        List.of(reqH1LondonParis, reqA1ParisAmsterdam));
+
+    bookingRequestData.put(
+        passengerService.findByName(name2).orElseThrow(),
+        List.of(reqN5LondonParis, reqT7ParisAmsterdam));
+
+    return bookingService.createBooking(new BookingRequest(bookingRequestData));
+  }
+
   @Test
   void testRepeatedReservationOnSeparateRoute() {
-    testTwoReservationOnSeparateRoute();
+    createTwoReservationOnSeparateRouteBooking("Michael", "John");
     BookingException exception =
         assertThrows(
             BookingException.class,
-            this::testTwoReservationOnSeparateRoute,
+            () -> createTwoReservationOnSeparateRouteBooking("Sarah", "Tiffany"),
             "Expected BookingException to be thrown when reserving the same seat twice");
 
     assertEquals("The requested seat is not available", exception.getMessage());
+  }
+
+  @Test
+  void testCountBoardingPassengers() {
+    createTwoReservationOnSeparateRouteBooking("Michael", "John");
+    var boardingPassengers =
+        this.bookingService.findBoardingForServiceAndStation(
+            5170, "London St. Pancras International");
+    assertEquals(2, boardingPassengers.size());
+  }
+
+  @Test
+  void testCountLeavingPassengers() {
+    createTwoReservationOnSeparateRouteBooking("Michael", "John");
+    var leavingPassengers =
+        this.bookingService.findLeavingForServiceAndStation(5170, "Paris Gare du Nord");
+    assertEquals(2, leavingPassengers.size());
+  }
+
+  @Test
+  void testCountBetweenStations() {
+    createTwoReservationOnSeparateRouteBooking("Michael", "John");
+    var passengers =
+        this.bookingService.findPresentForServiceBetweenStations(
+            5170, "Calais-Fréthun", "London St. Pancras International");
+    assertEquals(2, passengers.size());
+  }
+
+  @Test
+  void testFindBySeatAndStation() {
+    // Switched the query a bit to fit my dummy data
+    // Service date not implemented yet
+    createTwoReservationOnSeparateRouteBooking("Michael", "John");
+    var partBooking =
+        this.bookingService.findByServiceAndSeat(5170, "H1", "Calais-Fréthun").orElseThrow();
+    assertEquals("Michael", partBooking.passenger().getName());
   }
 }
