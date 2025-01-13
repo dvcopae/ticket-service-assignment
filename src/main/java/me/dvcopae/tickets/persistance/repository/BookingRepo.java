@@ -86,8 +86,10 @@ public final class BookingRepo extends IntegerCrudRepository<Booking> {
                             // the requested stations must be completely within the ticket stations
                             // for it to count
 
-                            boolean isValid = ticketOrigin <= reqOrigin && ticketDestination >= reqDestination;
-                            boolean isValidReverse = ticketDestination <= reqOrigin && ticketOrigin >= reqDestination;
+                            boolean isValid =
+                                ticketOrigin <= reqOrigin && ticketDestination >= reqDestination;
+                            boolean isValidReverse =
+                                ticketDestination <= reqOrigin && ticketOrigin >= reqDestination;
                             return isValid || isValidReverse;
                           }
 
