@@ -89,7 +89,7 @@ public class BookingService extends RepositoryService<Booking, Integer> {
     int bookingOriginIndex = 0;
     int bookingDestinationIndex = 0;
     for (int i = 0;
-        i < routeStations.size() && bookingOriginIndex == 0 || bookingDestinationIndex == 0;
+        i < routeStations.size() && (bookingOriginIndex == 0 || bookingDestinationIndex == 0);
         i++) {
       if (routeStations.get(i).equals(start)) {
         bookingOriginIndex = i;
@@ -112,7 +112,7 @@ public class BookingService extends RepositoryService<Booking, Integer> {
 
           // Get the i-th stations index for the booked seat in a single loop
           for (int i = 0;
-              i < routeStations.size() && ticketOriginIndex == 0 || ticketDestinationIndex == 0;
+              i < routeStations.size() && (ticketOriginIndex == 0 || ticketDestinationIndex == 0);
               i++) {
             if (routeStations.get(i).equals(t.getOrigin())) {
               ticketOriginIndex = i;

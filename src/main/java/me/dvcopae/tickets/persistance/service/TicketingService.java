@@ -32,7 +32,9 @@ public class TicketingService extends RepositoryService<Ticket, Integer> {
     if (!routingService.verifyStations(
         service.getRoute(), request.origin(), request.destination())) {
       throw new InvalidTicketException(
-          "Ticket origin or destination are not valid for the service " + service.getId());
+          String.format(
+              "Ticket origin (%s) or destination (%s) are not valid for the service %d.%n",
+              request.origin().getName(), request.destination().getName(), service.getId()));
     }
 
     if (carriages.stream()
@@ -41,7 +43,9 @@ public class TicketingService extends RepositoryService<Ticket, Integer> {
                 c.getFirstClassSeats().contains(request.seat())
                     || c.getSecondClassSeats().contains(request.seat()))) {
       throw new InvalidTicketException(
-          "Ticket seat is not valid for the service." + service.getId());
+          String.format(
+              "Ticket seat '%s' is not valid for the service %d.%n",
+              request.seat(), service.getId()));
     }
 
     return true;

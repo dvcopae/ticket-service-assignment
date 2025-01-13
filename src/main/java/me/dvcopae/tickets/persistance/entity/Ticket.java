@@ -66,4 +66,13 @@ public final class Ticket implements Entity<Integer> {
         + '\''
         + '}';
   }
+
+  public boolean isFirstClass() {
+    return this.service.getCarriages().stream()
+        .anyMatch(c -> c.getFirstClassSeats().contains(seat));
+  }
+
+  public boolean isSecondClass() {
+    return !isFirstClass();
+  }
 }
