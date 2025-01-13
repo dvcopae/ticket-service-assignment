@@ -10,19 +10,6 @@ Please show us what you are capable of. Make sure you are proud of the code you 
 3.	No external libraries are required, only libraries available with standard Java, Kotlin or Golang.
 a.	For testing purposes libraries are allowed
 
-### Note
-Although the interfaces below are Kotlin code. You can convert them into Golang and implement your code in Go using the standard Golang library.
-Basic Interfaces
-interface Response {
-   fun getStatusCode(): Int
-   fun getBody(): Any
-}
-
-interface HTTPClient {
-   fun post(url: String, body: Any): Response
-   fun get(url: String): Response
-}
-
 # Scenarios
 With this data model we would like you to implement the following scenarios.
 
